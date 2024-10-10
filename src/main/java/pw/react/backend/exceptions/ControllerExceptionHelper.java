@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import pw.react.backend.security.jwt.controllers.JwtAuthenticationController;
 
 @ControllerAdvice(annotations = RestController.class)
 public class ControllerExceptionHelper {
@@ -34,26 +31,12 @@ public class ControllerExceptionHelper {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(value = { AuthenticationException.class})
-    public ResponseEntity<ExceptionDetails> handleAuthenticationException(AuthenticationException ex) {
-        log.error("Authentication Exception: {}", ex.getMessage());
-        ExceptionDetails exceptionDetails = new ExceptionDetails(HttpStatus.UNAUTHORIZED, ex.getMessage());
-        exceptionDetails.setPath(JwtAuthenticationController.AUTHENTICATION_PATH);
-        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
-    }
-
     @ExceptionHandler(value = { UserValidationException.class })
     public ResponseEntity<ExceptionDetails> UserValidationException(UserValidationException ex) {
         log.error("User Validation Exception: {}", ex.getMessage());
         ExceptionDetails exceptionDetails = new ExceptionDetails(HttpStatus.BAD_REQUEST, ex.getMessage());
         exceptionDetails.setPath(ex.getResourcePath());
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = { UsernameNotFoundException.class })
-    public ResponseEntity<ExceptionDetails> handleBadRequest(UsernameNotFoundException ex) {
-        log.error("Username Exception: {}", ex.getMessage());
-        return new ResponseEntity<>(new ExceptionDetails(HttpStatus.BAD_REQUEST, ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
 }

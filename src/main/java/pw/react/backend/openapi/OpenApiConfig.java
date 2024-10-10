@@ -1,13 +1,9 @@
 package pw.react.backend.openapi;
 
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
 //@ConfigurationProperties(prefix = "application.springdoc")
@@ -23,7 +19,6 @@ public class OpenApiConfig {
     }
 
     @Bean
-    @Profile({"!jwt"})
     public OpenAPI openAPI() {
         return createOpenApi();
     }
@@ -38,24 +33,6 @@ public class OpenApiConfig {
                         .description(fullDescription)
                         .termsOfService("http://swagger.io/terms/")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")));
-    }
-
-    @Bean
-    @Profile({"jwt"})
-    public OpenAPI jwtOpenAPI() {
-        final String securitySchemeName = "bearerAuth";
-        return createOpenApi()
-                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
-                .components(
-                        new Components()
-                                .addSecuritySchemes(securitySchemeName,
-                                        new SecurityScheme()
-                                                .name(securitySchemeName)
-                                                .type(SecurityScheme.Type.HTTP)
-                                                .scheme("bearer")
-                                                .bearerFormat("JWT")
-                                )
-                );
     }
 
     public void setDescription(String description) {

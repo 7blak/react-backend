@@ -2,7 +2,6 @@ package pw.react.backend.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import pw.react.backend.dao.RoleRepository;
 import pw.react.backend.dao.UserRepository;
 import pw.react.backend.exceptions.UserValidationException;
@@ -19,12 +18,10 @@ public class UserMainService implements UserService {
     private static final Logger log = LoggerFactory.getLogger(UserMainService.class);
 
     protected final UserRepository userRepository;
-    protected final PasswordEncoder passwordEncoder;
     protected final RoleRepository roleRepository;
 
-    public UserMainService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    public UserMainService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
     }
 
@@ -36,7 +33,6 @@ public class UserMainService implements UserService {
             if (dbUser.isPresent()) {
                 log.info("User already exists. Updating it.");
                 user.setId(dbUser.get().getId());
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
                 user.setRoles(roleRepository.findByNameIn(user.getRoles().stream().map(Role::getName).collect(toSet())));
             }
             user = userRepository.save(user);
@@ -50,10 +46,6 @@ public class UserMainService implements UserService {
             if (isInvalid(user.getUsername())) {
                 log.error("Empty username.");
                 throw new UserValidationException("Empty username.");
-            }
-            if (isInvalid(user.getPassword())) {
-                log.error("Empty user password.");
-                throw new UserValidationException("Empty user password.");
             }
             if (isInvalid(user.getEmail())) {
                 log.error("Empty email.");
@@ -99,26 +91,10 @@ public class UserMainService implements UserService {
     }
 
     @Override
-    public User updatePassword(User user, String password) {
-        if (isValidUser(user)) {
-            if (passwordEncoder != null) {
-                log.debug("Encoding password.");
-                user.setPassword(passwordEncoder.encode(password));
-            } else {
-                log.debug("Password in plain text.");
-                user.setPassword(password);
-            }
-            user = userRepository.save(user);
-        }
-        return user;
-    }
-
-    @Override
     public Collection<User> batchSave(Collection<User> users) {
         if (users != null && !users.isEmpty()) {
             for (User user : users) {
                 isValidUser(user);
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
             }
             setRoles(users);
             return userRepository.saveAll(users);

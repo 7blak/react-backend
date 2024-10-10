@@ -1,7 +1,6 @@
 package pw.react.backend.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -12,7 +11,6 @@ public class CompanyLogo {
 
     @Id
     @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     private String fileName;
     private String fileType;

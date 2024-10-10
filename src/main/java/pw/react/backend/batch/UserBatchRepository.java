@@ -27,8 +27,7 @@ class UserBatchRepository implements BatchRepository<User> {
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 User user = users.get(i);
                 ps.setString(1, user.getEmail());
-                ps.setString(2, user.getPassword());
-                ps.setString(3, user.getUsername());
+                ps.setString(2, user.getUsername());
             }
             @Override
             public int getBatchSize() {

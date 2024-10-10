@@ -1,4 +1,4 @@
-package pw.react.backend.security.jwt.models;
+package pw.react.backend.models;
 
 import org.springframework.context.annotation.Profile;
 

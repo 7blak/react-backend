@@ -27,7 +27,6 @@ public record UserDto(
         user.setId(userDto.id());
         user.setUsername(userDto.username());
         user.setEmail(userDto.email());
-        user.setPassword(userDto.password());
         user.setRoles(userDto.roles().stream().map(Role::new).toList());
         return user;
     }

@@ -6,15 +6,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.*;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pw.react.backend.batch.BatchConfig;
 import pw.react.backend.dao.CompanyLogoRepository;
 import pw.react.backend.openapi.OpenApiConfig;
-import pw.react.backend.security.basic.BasicAuthenticationConfig;
-import pw.react.backend.security.jwt.services.JwtConfig;
 
 import javax.sql.DataSource;
 import java.util.*;
@@ -22,9 +19,8 @@ import java.util.*;
 import static java.util.stream.Collectors.toSet;
 
 @Configuration
-@EnableWebSecurity
 @Import({
-        NonBatchConfig.class, BatchConfig.class, JwtConfig.class, OpenApiConfig.class, BasicAuthenticationConfig.class
+        NonBatchConfig.class, BatchConfig.class, OpenApiConfig.class
 })
 public class MainConfig {
 

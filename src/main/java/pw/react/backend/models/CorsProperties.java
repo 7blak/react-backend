@@ -1,11 +1,13 @@
-package pw.react.backend.security.jwt.models;
+package pw.react.backend.models;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 
 @Profile({"cors"})
+@Configuration
 @ConfigurationProperties(prefix = "management.endpoints.web.cors")
 public class CorsProperties {
     private List<String> allowedOrigins;
