@@ -31,9 +31,8 @@ public class BatchConfig {
 
     @Bean
     public UserService userService(UserRepository userRepository,
-                                   BatchRepository<User> userBatchRepository,
-                                   RoleRepository roleRepository) {
-        return new UserBatchService(userRepository, userBatchRepository, roleRepository);
+                                   BatchRepository<User> userBatchRepository) {
+        return new UserBatchService(userRepository, userBatchRepository);
     }
 
     @Bean

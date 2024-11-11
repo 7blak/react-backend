@@ -13,8 +13,8 @@ public class NonBatchConfig {
     }
 
     @Bean
-    public UserService userService(UserRepository userRepository, RoleRepository roleRepository) {
-        return new UserMainService(userRepository, roleRepository);
+    public UserService userService(UserRepository userRepository) {
+        return new UserMainService(userRepository);
     }
 
 }
