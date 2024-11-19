@@ -67,7 +67,7 @@ public class UserMainService implements UserService {
     }
 
     @Override
-    public Collection<User> getAllGreaterThanId(long startingId){
-        return userRepository.findAllByIdGreaterThan(startingId);
+    public List<User> getAllWithIdGreaterThanOne(){
+        return userRepository.findAllByIdGreaterThan(1);
     }
 }

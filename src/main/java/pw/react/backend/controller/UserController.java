@@ -7,18 +7,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pw.react.backend.exceptions.ResourceNotFoundException;
 import pw.react.backend.exceptions.UserValidationException;
+import pw.react.backend.models.User;
 import pw.react.backend.services.CompanyService;
 import pw.react.backend.services.UserService;
-import pw.react.backend.web.CompanyDto;
 import pw.react.backend.web.UserDto;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = UserController.USERS_PATH)
@@ -62,12 +61,9 @@ public class UserController {
         }
     }
 
-//    @GetMapping(path = "/{companyId}")
-//    public ResponseEntity<CompanyDto> getCompany(@RequestHeader HttpHeaders headers, @PathVariable Long companyId) {
-//        logHeaders(headers);
-//        CompanyDto result = companyService.getById(companyId)
-//                .map(CompanyDto::valueFrom)
-//                .orElseThrow(() -> new ResourceNotFoundException(String.format("Company with %d does not exist", companyId)));
-//        return ResponseEntity.ok(result);
-//    }
+    @GetMapping(value = "")
+    public @ResponseBody ResponseEntity<List<User>> getUserWithIdGreaterThanOne() {
+        List<User> users = userService.getAllWithIdGreaterThanOne();
+        return ResponseEntity.status(HttpStatus.OK).body(users);
+    }
 }
