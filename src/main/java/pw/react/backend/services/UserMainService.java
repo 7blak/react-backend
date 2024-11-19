@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import pw.react.backend.dao.UserRepository;
 import pw.react.backend.exceptions.UserValidationException;
 import pw.react.backend.models.User;
+import pw.react.backend.web.UserDto;
 
 import java.util.*;
 
@@ -67,7 +68,7 @@ public class UserMainService implements UserService {
     }
 
     @Override
-    public List<User> getAllWithIdGreaterThanOne(){
+    public Collection<UserDto> getAllWithIdGreaterThanOne(){
         return userRepository.findAllByIdGreaterThan(1);
     }
 }

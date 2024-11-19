@@ -62,8 +62,8 @@ public class UserController {
     }
 
     @GetMapping(value = "")
-    public @ResponseBody ResponseEntity<List<User>> getUserWithIdGreaterThanOne() {
-        List<User> users = userService.getAllWithIdGreaterThanOne();
+    public ResponseEntity<Collection<UserDto>> getUserWithIdGreaterThanOne() {
+        Collection<UserDto> users = userService.getAllWithIdGreaterThanOne();
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 }
