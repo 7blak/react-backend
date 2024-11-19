@@ -7,4 +7,5 @@ import java.util.Collection;
 public interface UserService {
     User validateAndSave(User user);
     Collection<User> batchSave(Collection<User> users);
+    Collection<User> getAllGreaterThanId(long startingId);
 }
